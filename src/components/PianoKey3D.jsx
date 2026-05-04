@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
 
 const PianoKey3D = ({ note, isBlack, positionX, isActive, isTarget, onPlayNote }) => {
@@ -13,8 +14,8 @@ const PianoKey3D = ({ note, isBlack, positionX, isActive, isTarget, onPlayNote }
   const keySpacing = 1.0;
 
   // Base Colors
-  const baseColor = isBlack ? '#111111' : '#f0f0f0';
-  const activeColor = isBlack ? '#333333' : '#cccccc';
+  const baseColor = isBlack ? '#1a1a1a' : '#d1d5db';
+  const activeColor = isBlack ? '#333333' : '#e5e7eb';
   
   // Target/Correct Glow Colors
   const targetColor = '#3b82f6'; // Blue
@@ -62,19 +63,21 @@ const PianoKey3D = ({ note, isBlack, positionX, isActive, isTarget, onPlayNote }
   return (
     <group position={[positionX * keySpacing, yPosition, zPosition]}>
       {/* Shift pivot point to the back of the key */}
-      <mesh
+      <RoundedBox
         ref={meshRef}
+        args={[keyWidth, keyHeight, keyDepth]}
+        radius={0.05}
+        smoothness={4}
         position={[0, 0, keyDepth / 2]}
         onPointerDown={handlePointerDown}
       >
-        <boxGeometry args={[keyWidth, keyHeight, keyDepth]} />
         <meshStandardMaterial
           ref={materialRef}
           color={baseColor}
-          roughness={0.2}
+          roughness={0.4}
           metalness={0.1}
         />
-      </mesh>
+      </RoundedBox>
     </group>
   );
 };

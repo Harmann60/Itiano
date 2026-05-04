@@ -9,7 +9,10 @@ const buildSong = (title, notesString) => {
   return { title, notes };
 };
 
+export const FREE_PLAY = { title: "Free Play (No Track)", notes: [] };
+
 export const SONGS = [
+  FREE_PLAY,
   buildSong(
     "Twinkle Twinkle Little Star",
     "C4 C4 G4 G4 A4 A4 G4 F4 F4 E4 E4 D4 D4 C4 G4 G4 F4 F4 E4 E4 D4 G4 G4 F4 F4 E4 E4 D4 C4 C4 G4 G4 A4 A4 G4 F4 F4 E4 E4 D4 D4 C4"

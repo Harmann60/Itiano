@@ -20,6 +20,15 @@ const SongTrainer = ({ song, currentNoteIndex, errorState }) => {
 
   if (!song) return <div className="song-trainer empty">Select a song to begin</div>;
 
+  if (song.notes.length === 0) {
+    return (
+      <div className="song-trainer free-play-mode">
+        <h2>🎹 Free Play Mode</h2>
+        <p>Play any keys on your keyboard or click the 3D piano to experiment.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="song-trainer">
       <div className="trainer-header">

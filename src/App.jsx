@@ -50,6 +50,9 @@ function App() {
       setActiveNotes(prev => [...new Set([...prev, playedNote])]);
 
       // Trainer Logic
+      const isFreePlay = selectedSong.notes.length === 0;
+      if (isFreePlay) return;
+
       const targetNoteObj = selectedSong.notes[currentNoteIndex];
       if (targetNoteObj && playedNote === targetNoteObj.note) {
         // Correct Note
@@ -94,68 +97,57 @@ function App() {
   }, [hasStarted]);
 
   // Determine what note the keyboard should highlight as target
-  const targetNote = (!isFinished && selectedSong.notes[currentNoteIndex]) 
+  const isFreePlay = selectedSong.notes.length === 0;
+  const targetNote = (!isFinished && !isFreePlay && selectedSong.notes[currentNoteIndex]) 
     ? selectedSong.notes[currentNoteIndex].note 
     : null;
 
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <h1><Music className="icon" /> Virtual Piano Tutor</h1>
-        <p>Learn to play songs by typing on your keyboard</p>
-      </header>
+    <>
+      <Piano3D activeNotes={activeNotes} targetNote={targetNote} onPlayNote={handlePlayNote} />
 
       {!hasStarted ? (
-        <div className="start-screen">
-          <button className="btn-primary" onClick={handleStart}>
-            <Play className="icon" /> Start Playing
+        <div className="minimal-overlay start-screen">
+          <button className="minimal-start-btn" onClick={handleStart}>
+            Click to Start
           </button>
-          <p className="hint">Click to enable audio</p>
         </div>
       ) : (
-        <main className="main-content">
-          <div className="controls">
-            <div className="song-selector">
-              <label>Select Song:</label>
-              <select 
-                value={selectedSong.title} 
-                onChange={(e) => handleSongSelect(SONGS.find(s => s.title === e.target.value))}
-              >
-                {SONGS.map(song => (
-                  <option key={song.title} value={song.title}>{song.title}</option>
-                ))}
-              </select>
-            </div>
-            <button className="btn-secondary" onClick={handleRestart}>
-              <RotateCcw className="icon" /> Restart Song
-            </button>
+        <div className="minimal-overlay">
+          <div className="top-instructions">
+            <p>Use Keyboard keys A S D F G H J K L ; ' & W E T Y U O P to play</p>
+            <p className="sub-instruction">Drag to rotate · Scroll to zoom</p>
           </div>
 
-          <SongTrainer 
-            song={selectedSong} 
-            currentNoteIndex={currentNoteIndex} 
-            errorState={errorState} 
-          />
+          <div className="song-title">
+            {selectedSong.title === "Free Play (No Track)" ? "Free Play" : selectedSong.title}
+          </div>
 
           {isFinished && (
-            <div className="celebration">
-              <h2>Song Completed! 🎉</h2>
-              <button className="btn-primary" onClick={handleRestart}>Play Again</button>
+            <div className="finished-message">
+              <p>Song Completed!</p>
+              <button onClick={handleRestart} className="minimal-restart-btn">Play Again</button>
             </div>
           )}
 
-          <div className="keyboard-section">
-            <Piano3D activeNotes={activeNotes} targetNote={targetNote} onPlayNote={handlePlayNote} />
+          <div className="bottom-credits">
+            <p>A 3D virtual piano made by you</p>
           </div>
-          
-          <div className="instructions">
-            <h3>Controls</h3>
-            <p>Use the home row (A, S, D, F, G, H, J) for white keys, and top row (W, E, T, Y, U) for black keys.</p>
-            <p>You can also use your mouse to click any key on the 3D piano!</p>
+
+          <div className="minimal-controls">
+            <select 
+              value={selectedSong.title} 
+              onChange={(e) => handleSongSelect(SONGS.find(s => s.title === e.target.value))}
+              className="minimal-select"
+            >
+              {SONGS.map(song => (
+                <option key={song.title} value={song.title}>{song.title}</option>
+              ))}
+            </select>
           </div>
-        </main>
+        </div>
       )}
-    </div>
+    </>
   );
 }
 
