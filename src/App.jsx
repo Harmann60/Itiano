@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import PianoKeyboard from './components/PianoKeyboard';
+import Piano3D from './components/Piano3D';
 import SongTrainer from './components/SongTrainer';
 import { SONGS } from './utils/songs';
 import { KEY_TO_NOTE_MAP, NOTE_TO_KEY_MAP } from './utils/keyMap';
@@ -85,6 +85,14 @@ function App() {
     };
   }, [handleKeyDown, handleKeyUp]);
 
+  const handlePlayNote = useCallback((note) => {
+    if (!hasStarted) return;
+    playNote(note);
+    // Note: Since this is mouse click, we briefly activate it then deactivate it,
+    // or rely on the user having to press the correct computer key to advance the song.
+    // For simplicity in the visualizer, we just play the audio.
+  }, [hasStarted]);
+
   // Determine what note the keyboard should highlight as target
   const targetNote = (!isFinished && selectedSong.notes[currentNoteIndex]) 
     ? selectedSong.notes[currentNoteIndex].note 
@@ -137,12 +145,13 @@ function App() {
           )}
 
           <div className="keyboard-section">
-            <PianoKeyboard activeNotes={activeNotes} targetNote={targetNote} />
+            <Piano3D activeNotes={activeNotes} targetNote={targetNote} onPlayNote={handlePlayNote} />
           </div>
           
           <div className="instructions">
             <h3>Controls</h3>
             <p>Use the home row (A, S, D, F, G, H, J) for white keys, and top row (W, E, T, Y, U) for black keys.</p>
+            <p>You can also use your mouse to click any key on the 3D piano!</p>
           </div>
         </main>
       )}

@@ -21,5 +21,13 @@ export const SONGS = [
   buildSong(
     "Mary Had a Little Lamb",
     "E4 D4 C4 D4 E4 E4 E4 D4 D4 D4 E4 G4 G4 E4 D4 C4 D4 E4 E4 E4 E4 D4 D4 E4 D4 C4"
+  ),
+  buildSong(
+    "Stay (Chorus)",
+    "C5 B4 A4 G4 F4 E4 F4 G4 E4 C5 B4 A4 G4 F4 E4 F4 G4 E4"
+  ),
+  buildSong(
+    "Treat You Better (Chorus)",
+    "E4 G4 A4 G4 E4 D4 C4 D4 E4 C4"
   )
 ];
