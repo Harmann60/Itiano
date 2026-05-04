@@ -1,20 +1,77 @@
-<<<<<<< HEAD
-# React + Vite
+<div align="center">
+  <h1>🎹 Itiano - Virtual Piano Tutor</h1>
+  <p>Learn to play piano songs by typing on your computer keyboard!</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+  [![React](https://img.shields.io/badge/React-19-blue?logo=react&logoColor=white)](https://react.dev)
+  [![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+  [![Three.js](https://img.shields.io/badge/Three.js-black?logo=threedotjs&logoColor=white)](https://threejs.org/)
+  [![Tone.js](https://img.shields.io/badge/Tone.js-black?logo=tone&logoColor=white)](https://tonejs.github.io/)
+</div>
 
-Currently, two official plugins are available:
+<br />
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🌟 Introduction
 
-## React Compiler
+**Itiano** is an interactive, web-based virtual piano application designed to function as a typing tutor for learning songs. By combining the gamified mechanics of a typing tutor (like Keybr or 10fastfingers) with a modern 3D piano interface, Itiano makes learning melodies accessible, engaging, and fun right from your browser—no physical piano required!
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Features
 
-## Expanding the ESLint configuration
+- **🎮 Interactive 3D Piano**: A beautiful, fully interactive 3D piano built with `@react-three/fiber` that highlights keys as you play.
+- **🎵 Real-time Audio**: High-quality audio synthesis powered by `Tone.js` for zero-latency, realistic piano sounds.
+- **🎹 Typing Tutor Mechanics**: Guides you through song sequences note-by-note. 
+- **✅ Instant Feedback**: Correct keystrokes advance the song, while incorrect ones provide visual error feedback.
+- **🎧 Multi-Input Support**: Play using your computer keyboard or by clicking the 3D keys with your mouse.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# Itiano
->>>>>>> 8837ee70e6580a0758671111dd26d70900005e09
+## 🛠️ Tech Stack
+
+- **Frontend Framework**: [React](https://react.dev/)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **3D Rendering**: [Three.js](https://threejs.org/) + [@react-three/fiber](https://docs.pmnd.rs/react-three-fiber) + [@react-three/drei](https://github.com/pmndrs/drei)
+- **Audio Engine**: [Tone.js](https://tonejs.github.io/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+
+## 🚀 Getting Started
+
+Follow these steps to set up the project locally on your machine.
+
+### Prerequisites
+
+Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Harmann60/Itiano.git
+   cd Itiano
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser:**
+   Navigate to `http://localhost:5173/`
+
+## ⌨️ Controls
+
+Use your computer keyboard to play the piano!
+
+- **White Keys**: Home Row (`A, S, D, F, G, H, J, K, L, ;`)
+- **Black Keys**: Top Row (`W, E, T, Y, U, O, P`)
+
+*Alternatively, you can use your mouse to click on the 3D keys directly!*
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Harmann60/Itiano/issues) if you want to contribute.
+
+<div align="center">
+  <p>Made with ❤️ and code.</p>
+</div>
