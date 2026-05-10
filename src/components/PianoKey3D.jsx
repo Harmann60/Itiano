@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { RoundedBox } from '@react-three/drei';
+import { RoundedBox, Text } from '@react-three/drei';
 import * as THREE from 'three';
+import { NOTE_TO_KEY_MAP } from '../utils/keyMap';
 
 const PianoKey3D = ({ note, isBlack, positionX, isActive, isTarget, onPlayNote }) => {
   const meshRef = useRef();
@@ -59,6 +60,7 @@ const PianoKey3D = ({ note, isBlack, positionX, isActive, isTarget, onPlayNote }
   // White keys pivot from the back. Black keys sit higher and further back.
   const zPosition = isBlack ? -1 : 0;
   const yPosition = isBlack ? 0.3 : 0;
+  const keyboardKey = NOTE_TO_KEY_MAP[note] ? NOTE_TO_KEY_MAP[note].toUpperCase() : '';
 
   return (
     <group position={[positionX * keySpacing, yPosition, zPosition]}>
@@ -78,6 +80,22 @@ const PianoKey3D = ({ note, isBlack, positionX, isActive, isTarget, onPlayNote }
           metalness={0.1}
         />
       </RoundedBox>
+
+      {/* Show the key to press if this is a mapped key */}
+      {keyboardKey && (
+        <Text
+          position={[0, keyHeight / 2 + 0.05, isBlack ? 3.0 : 5.0]}
+          rotation={[-Math.PI / 2, 0, 0]}
+          fontSize={0.3}
+          color={isTarget ? '#ffffff' : (isBlack ? '#ffffff' : '#000000')}
+          anchorX="center"
+          anchorY="middle"
+          outlineWidth={0.02}
+          outlineColor={isBlack ? '#000000' : '#ffffff'}
+        >
+          {keyboardKey}
+        </Text>
+      )}
     </group>
   );
 };

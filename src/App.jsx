@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Piano3D from './components/Piano3D';
 import SongTrainer from './components/SongTrainer';
+import UpcomingNoteQueue from './components/UpcomingNoteQueue';
 import { SONGS } from './utils/songs';
 import { KEY_TO_NOTE_MAP, NOTE_TO_KEY_MAP } from './utils/keyMap';
 import { playNote, initAudio } from './utils/audio';
@@ -54,7 +55,17 @@ function App() {
       if (isFreePlay) return;
 
       const targetNoteObj = selectedSong.notes[currentNoteIndex];
-      if (targetNoteObj && playedNote === targetNoteObj.note) {
+      
+      let isCorrect = false;
+      if (targetNoteObj) {
+        if (targetNoteObj.type === 'note' && playedNote === targetNoteObj.note) {
+          isCorrect = true;
+        } else if (targetNoteObj.type === 'chord' && targetNoteObj.notes.includes(playedNote)) {
+          isCorrect = true; // For simplicity, pressing any key in the chord advances it
+        }
+      }
+
+      if (isCorrect) {
         // Correct Note
         setErrorState(false);
         const nextIndex = currentNoteIndex + 1;
@@ -62,7 +73,7 @@ function App() {
         if (nextIndex >= selectedSong.notes.length) {
           setIsFinished(true);
         }
-      } else {
+      } else if (targetNoteObj && targetNoteObj.type !== 'pause') {
         // Wrong Note
         setErrorState(true);
         // Clear error state after animation
@@ -88,6 +99,26 @@ function App() {
     };
   }, [handleKeyDown, handleKeyUp]);
 
+  const isFreePlay = selectedSong.notes.length === 0;
+
+  // Auto-advance pauses
+  useEffect(() => {
+    if (!hasStarted || isFinished || isFreePlay) return;
+
+    const targetNoteObj = selectedSong.notes[currentNoteIndex];
+    if (targetNoteObj && targetNoteObj.type === 'pause') {
+      const delay = targetNoteObj.length === 1 ? 250 : 500; // 250ms for space, 500ms for | or ↵
+      const timer = setTimeout(() => {
+        const nextIndex = currentNoteIndex + 1;
+        setCurrentNoteIndex(nextIndex);
+        if (nextIndex >= selectedSong.notes.length) {
+          setIsFinished(true);
+        }
+      }, delay);
+      return () => clearTimeout(timer);
+    }
+  }, [hasStarted, isFinished, isFreePlay, selectedSong, currentNoteIndex]);
+
   const handlePlayNote = useCallback((note) => {
     if (!hasStarted) return;
     playNote(note);
@@ -96,15 +127,16 @@ function App() {
     // For simplicity in the visualizer, we just play the audio.
   }, [hasStarted]);
 
-  // Determine what note the keyboard should highlight as target
-  const isFreePlay = selectedSong.notes.length === 0;
-  const targetNote = (!isFinished && !isFreePlay && selectedSong.notes[currentNoteIndex]) 
-    ? selectedSong.notes[currentNoteIndex].note 
-    : null;
+  const targetNotes = [];
+  if (!isFinished && !isFreePlay && selectedSong.notes[currentNoteIndex]) {
+    const obj = selectedSong.notes[currentNoteIndex];
+    if (obj.type === 'note') targetNotes.push(obj.note);
+    if (obj.type === 'chord') targetNotes.push(...obj.notes);
+  }
 
   return (
     <>
-      <Piano3D activeNotes={activeNotes} targetNote={targetNote} onPlayNote={handlePlayNote} />
+      <Piano3D activeNotes={activeNotes} targetNotes={targetNotes} onPlayNote={handlePlayNote} />
 
       {!hasStarted ? (
         <div className="minimal-overlay start-screen">
@@ -122,6 +154,10 @@ function App() {
           <div className="song-title">
             {selectedSong.title === "Free Play (No Track)" ? "Free Play" : selectedSong.title}
           </div>
+
+          {!isFreePlay && !isFinished && (
+            <UpcomingNoteQueue notes={selectedSong.notes} currentIndex={currentNoteIndex} />
+          )}
 
           {isFinished && (
             <div className="finished-message">

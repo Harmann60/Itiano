@@ -1,36 +1,102 @@
-import { NOTE_TO_KEY_MAP } from './keyMap';
+import { KEY_TO_NOTE_MAP } from './keyMap';
 
-// Helper to convert note names into a playable sequence with the required keys
-const buildSong = (title, notesString) => {
-  const notes = notesString.split(' ').map(note => ({
-    note,
-    key: NOTE_TO_KEY_MAP[note]
-  }));
-  return { title, notes };
+export const parseVirtualPianoSheet = (title, sheetString) => {
+  const items = [];
+  let inChord = false;
+  let currentChordKeys = [];
+  let currentChordNotes = [];
+
+  for (let i = 0; i < sheetString.length; i++) {
+    const char = sheetString[i];
+    
+    if (char === '[') {
+      inChord = true;
+      currentChordKeys = [];
+      currentChordNotes = [];
+      continue;
+    }
+    
+    if (char === ']') {
+      inChord = false;
+      if (currentChordKeys.length > 0) {
+        items.push({ type: 'chord', keys: currentChordKeys, notes: currentChordNotes });
+      }
+      continue;
+    }
+    
+    if (char === ' ') {
+      if (!inChord) items.push({ type: 'pause', length: 1, char: ' ' });
+      continue;
+    }
+    
+    if (char === '|') {
+      if (!inChord) items.push({ type: 'pause', length: 2, char: '|' });
+      continue;
+    }
+    
+    if (char === '\n' || char === '\r') {
+      const last = items[items.length - 1];
+      if (last && last.type !== 'pause' && char === '\n') {
+         items.push({ type: 'pause', length: 2, char: '↵' });
+      }
+      continue;
+    }
+    
+    const note = KEY_TO_NOTE_MAP[char];
+    if (note) {
+      if (inChord) {
+        currentChordKeys.push(char);
+        currentChordNotes.push(note);
+      } else {
+        items.push({ type: 'note', key: char, note: note });
+      }
+    }
+  }
+  
+  return { title, notes: items };
 };
 
-export const FREE_PLAY = { title: "Free Play (No Track)", notes: [] };
-
 export const SONGS = [
-  FREE_PLAY,
-  buildSong(
-    "Twinkle Twinkle Little Star",
-    "C4 C4 G4 G4 A4 A4 G4 F4 F4 E4 E4 D4 D4 C4 G4 G4 F4 F4 E4 E4 D4 G4 G4 F4 F4 E4 E4 D4 C4 C4 G4 G4 A4 A4 G4 F4 F4 E4 E4 D4 D4 C4"
+  { title: "Free Play (No Track)", notes: [] },
+  parseVirtualPianoSheet(
+    "Tum Hi Ho (Aashiqui 2)",
+    `
+s s s d | s |
+a a a s | a |
+s s a p p s s a
+p p s s s p | s | |
+s s s d | s |
+a a a s | d |
+s s a p p s s a
+p p s s s p | s | |
+s d | s [of] | |
+a [oh] | [of] | |
+s d | s [of] | |
+s [oh] | [of] | |
+s s s s d | s |
+d d d d f s d |
+f f f s p p o o |
+f s p p s s |
+[us] o [so] u [sh] [sh] [sg] f d |
+[ya] o [oa] y [ha] [ha] [og] f d |
+[pf] s [sf] p [jf] s [jf] s [sj]
+g p p i [pg] s [pg] f |
+[us] o [so] u [sh] [sh] [sg] f d |
+[ya] o [oa] y [ga] h h g f d
+p [uf] p [pf] s p [jf] s [jf] s [sj]
+g p p s j a h p g o
+`
   ),
-  buildSong(
-    "Ode to Joy",
-    "E4 E4 F4 G4 G4 F4 E4 D4 C4 C4 D4 E4 E4 D4 D4 E4 E4 F4 G4 G4 F4 E4 D4 C4 C4 D4 E4 D4 C4 C4"
-  ),
-  buildSong(
-    "Mary Had a Little Lamb",
-    "E4 D4 C4 D4 E4 E4 E4 D4 D4 D4 E4 G4 G4 E4 D4 C4 D4 E4 E4 E4 E4 D4 D4 E4 D4 C4"
-  ),
-  buildSong(
-    "Stay (Chorus)",
-    "C5 B4 A4 G4 F4 E4 F4 G4 E4 C5 B4 A4 G4 F4 E4 F4 G4 E4"
-  ),
-  buildSong(
-    "Treat You Better (Chorus)",
-    "E4 G4 A4 G4 E4 D4 C4 D4 E4 C4"
+  parseVirtualPianoSheet(
+    "Kal Ho Naa Ho",
+    `
+s d f g f d s a p
+p a s d s a p o
+s d f g f d s a p
+p a s d s a p o i
+i o p p o i u y
+i o p p o i u y
+s d f g f d s a p
+`
   )
 ];

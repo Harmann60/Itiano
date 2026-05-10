@@ -146,3 +146,96 @@ body, html {
   background: #4ade80;
   color: #000000;
 }
+
+/* Upcoming Note Queue */
+.note-queue-container {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  pointer-events: none; /* Let clicks pass through */
+}
+
+.note-queue-header {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: #888888;
+  text-transform: uppercase;
+}
+
+.note-queue-list {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.note-queue-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  animation: slideIn 0.3s ease-out backwards;
+}
+
+.note-queue-item.target {
+  width: 80px;
+  height: 100px;
+  background: rgba(59, 130, 246, 0.2);
+  border: 1px solid #3b82f6;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+  transform: scale(1.1);
+}
+
+.note-queue-item.upcoming {
+  opacity: 0.6;
+  transform: scale(0.9);
+}
+
+.note-queue-item.empty {
+  background: transparent;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.keyboard-key {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 0.2rem;
+}
+
+.target .keyboard-key {
+  font-size: 2.2rem;
+}
+
+.musical-note {
+  font-size: 0.8rem;
+  color: #aaaaaa;
+}
+
+.target .musical-note {
+  color: #ffffff;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+

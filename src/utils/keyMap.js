@@ -1,8 +1,24 @@
 export const KEY_TO_NOTE_MAP = {
-  // We map the main computer keys to the middle octave (C4-C5) for the typing tutor
-  'a': 'C4', 'w': 'C#4', 's': 'D4', 'e': 'D#4', 'd': 'E4',
-  'f': 'F4', 't': 'F#4', 'g': 'G4', 'y': 'G#4', 'h': 'A4',
-  'u': 'A#4', 'j': 'B4', 'k': 'C5'
+  // Octave 2
+  '1': 'C2', '!': 'C#2', '2': 'D2', '@': 'D#2', '3': 'E2',
+  '4': 'F2', '$': 'F#2', '5': 'G2', '%': 'G#2', '6': 'A2', '^': 'A#2', '7': 'B2',
+  
+  // Octave 3
+  '8': 'C3', '*': 'C#3', '9': 'D3', '(': 'D#3', '0': 'E3',
+  'q': 'F3', 'Q': 'F#3', 'w': 'G3', 'W': 'G#3', 'e': 'A3', 'E': 'A#3', 'r': 'B3',
+  
+  // Octave 4
+  't': 'C4', 'T': 'C#4', 'y': 'D4', 'Y': 'D#4', 'u': 'E4',
+  'i': 'F4', 'I': 'F#4', 'o': 'G4', 'O': 'G#4', 'p': 'A4', 'P': 'A#4', 'a': 'B4',
+  
+  // Octave 5
+  's': 'C5', 'S': 'C#5', 'd': 'D5', 'D': 'D#5', 'f': 'E5',
+  'g': 'F5', 'G': 'F#5', 'h': 'G5', 'H': 'G#5', 'j': 'A5', 'J': 'A#5', 'k': 'B5',
+  
+  // Octave 6 & 7
+  'l': 'C6', 'L': 'C#6', 'z': 'D6', 'Z': 'D#6', 'x': 'E6',
+  'c': 'F6', 'C': 'F#6', 'v': 'G6', 'V': 'G#6', 'b': 'A6', 'B': 'A#6', 'n': 'B6',
+  'm': 'C7'
 };
 
 export const NOTE_TO_KEY_MAP = Object.entries(KEY_TO_NOTE_MAP).reduce((acc, [key, note]) => {

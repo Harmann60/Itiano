@@ -4,7 +4,7 @@ import { OrbitControls, Environment, ContactShadows, RoundedBox } from '@react-t
 import PianoKey3D from './PianoKey3D';
 import { PIANO_KEYS, TOTAL_WHITE_KEYS } from '../utils/keyMap';
 
-const Piano3DScene = ({ activeNotes, targetNote, onPlayNote }) => {
+const Piano3DScene = ({ activeNotes, targetNotes = [], onPlayNote }) => {
   // Center the piano
   const offsetX = -(TOTAL_WHITE_KEYS / 2);
   const pianoWidth = TOTAL_WHITE_KEYS * 1.0;
@@ -28,7 +28,7 @@ const Piano3DScene = ({ activeNotes, targetNote, onPlayNote }) => {
           isBlack={keyData.isBlack}
           positionX={keyData.positionX}
           isActive={activeNotes.includes(keyData.note)}
-          isTarget={targetNote === keyData.note}
+          isTarget={targetNotes.includes(keyData.note)}
           onPlayNote={onPlayNote}
         />
       ))}
@@ -36,7 +36,7 @@ const Piano3DScene = ({ activeNotes, targetNote, onPlayNote }) => {
   );
 };
 
-const Piano3D = ({ activeNotes = [], targetNote = null, onPlayNote }) => {
+const Piano3D = ({ activeNotes = [], targetNotes = [], onPlayNote }) => {
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: '#000000' }}>
       <Canvas camera={{ position: [0, 18, 14], fov: 40 }}>
@@ -50,7 +50,7 @@ const Piano3D = ({ activeNotes = [], targetNote = null, onPlayNote }) => {
         <Suspense fallback={null}>
           <Piano3DScene 
             activeNotes={activeNotes} 
-            targetNote={targetNote} 
+            targetNotes={targetNotes}
             onPlayNote={onPlayNote} 
           />
           {/* Subtle reflections */}
