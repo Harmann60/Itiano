@@ -1,9 +1,7 @@
 <div align="center">
   <h1>🎹 Itiano - Virtual Piano Tutor</h1>
   <p>Learn to play piano songs by typing on your computer keyboard!</p>
-
-  [![React](https://img.shields.io/badge/React-19-blue?logo=react&logoColor=white)](https://react.dev)
-  [![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+  
   [![Three.js](https://img.shields.io/badge/Three.js-black?logo=threedotjs&logoColor=white)](https://threejs.org/)
   [![Tone.js](https://img.shields.io/badge/Tone.js-black?logo=tone&logoColor=white)](https://tonejs.github.io/)
 </div>
